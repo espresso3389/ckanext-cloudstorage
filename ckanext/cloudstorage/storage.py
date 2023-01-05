@@ -3,12 +3,12 @@
 import cgi
 import mimetypes
 import os.path
-import urlparse
+from urllib.parse import urlparse
 from ast import literal_eval
 from datetime import datetime, timedelta
 
-from pylons import config
 from ckan import model
+from ckan.common import config
 from ckan.lib import munge
 import ckan.plugins as p
 

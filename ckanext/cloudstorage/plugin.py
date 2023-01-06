@@ -18,6 +18,12 @@ class CloudStoragePlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IResourceController, inherit=True)
+    plugins.implements(plugins.IClick)
+
+    # IClick
+    def get_commands(self):
+        from ckanext.cloudstorage.cli import get_commands
+        return get_commands()
 
     # IConfigurer
 

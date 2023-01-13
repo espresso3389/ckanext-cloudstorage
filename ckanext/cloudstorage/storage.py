@@ -15,6 +15,9 @@ import ckan.plugins as p
 from libcloud.storage.types import Provider, ObjectDoesNotExistError
 from libcloud.storage.providers import get_driver
 
+import logging
+
+log = logging.getLogger(__name__)
 
 class CloudStorage(object):
     def __init__(self):
@@ -161,6 +164,8 @@ class ResourceCloudStorage(CloudStorage):
         self._clear = resource.pop('clear_upload', None)
         multipart_name = resource.pop('multipart_name', None)
 
+        log.info("resource: %s", resource)
+
         # Check to see if a file has been provided
         if isinstance(upload_field_storage, cgi.FieldStorage):
             self.filename = munge.munge_filename(upload_field_storage.filename)
@@ -207,6 +212,10 @@ class ResourceCloudStorage(CloudStorage):
         :param id: The resource_id.
         :param max_size: Ignored.
         """
+        log.info("self.filename: %s", self.filename)
+        log.info("self.old_filename: %s", self.old_filename)
+        log.info("self.guess_mimetype: %s", self.guess_mimetype)
+        log.info("self.container_name: %s", self.container_name)
         if self.filename:
             if self.can_use_advanced_azure:
                 from azure.storage import blob as azure_blob
@@ -259,6 +268,9 @@ class ResourceCloudStorage(CloudStorage):
                 # for it to not yet exist in a committed state due to an
                 # outstanding lease.
                 return
+
+    def get_path(self, id):
+        return self.path_from_filename(id, self.filename)
 
     def get_url_from_filename(self, rid, filename):
         """

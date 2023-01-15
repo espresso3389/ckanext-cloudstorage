@@ -5,4 +5,4 @@ main:
     - vendor/file-upload.js
     - cloudstorage-multipart-upload.js
   depends:
-    - base/main
+    - javascript/main.js
